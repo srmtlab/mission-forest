@@ -8,7 +8,9 @@ gem 'mysql2', '>= 0.3.13', '< 0.5'
 gem 'pg'
 
 # LOD
-gem 'stardog-rb'
+# gem 'stardog-rb'
+gem 'httpclient'
+
 
 # Asset
 gem 'uglifier', '>= 1.3.0'
@@ -23,6 +25,7 @@ gem 'bootstrap3-datetimepicker-rails'
 # Security
 gem 'devise'
 gem 'bcrypt', '~> 3.1.7'
+gem 'banken'
 
 group :development, :test do
   gem 'byebug'

@@ -1,3 +1,4 @@
+# coding: utf-8
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
@@ -16,7 +17,6 @@ class TasksController < ApplicationController
   def new
     @task = Task.new
     @task.mission_id = params[:mission_id]
-    @task.parent_id = 0
   end
 
   # GET /tasks/1/new
@@ -46,7 +46,6 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
     @task.user = current_user
     @task.mission = Mission.find(params[:mission_id])
-    @task.parent_id = 0
 
     if @task.save
       redirect_to mission_path(@task.mission), notice: 'タスクが作成されました'
@@ -68,6 +67,24 @@ class TasksController < ApplicationController
     end
   end
 
+  # PUT api/tasks/1/update
+  def update_child
+    @task = Task.find(params[:id])
+   
+    if @task.update(task_params)
+      render :json => { task: @task }
+    end
+  end
+
+  # DELETE api/tasks/1/delete
+  def delete_child
+    @task = Task.find(params[:id])
+   
+    if @task.delete
+      render :json => { task: @task }
+    end
+  end
+  
   # PATCH/PUT /tasks/1
   def update
     if @task.update(task_params)
@@ -89,6 +106,6 @@ class TasksController < ApplicationController
     end
 
     def task_params
-      params[:task].permit(:title, :description, :mission_id, :parent_id, :deadline_at)
+      params[:task].permit(:title, :description, :mission_id, :sub_task_of, :deadline_at, :status, :notify)
     end
 end
